@@ -22,17 +22,17 @@
             </form>
             <div class="log-in">
                 <img class="avatar" src="./avatar.svg" alt="avatar">
-                <a href="#">Log In</a>
+                <a href="#">Log In/Sign Up</a>
             </div>
         </div>
     </div>
     
     <div class="nav-bar">
         <div class="instruction-bar">
-            Instruction: Add your favourite book by clicking the button 'Add New Book'. Don't forget to tick read or unread for later!
+            Fill in your 'cooool' library some books by clicking the button.
         </div>
         <div class="button">
-            <button onclick="addBook()">Add new book</button>
+            <button onclick="addBookPopUp()">Add new book</button>
         </div>
         
     </div>
@@ -47,20 +47,25 @@
                 <input type="text" name="author" id="author" placeholder="Author" required="">
             </div>
             <div class="pages">
-                <input type="number" name="pages" id="pages" placeholder="Pages" required="">
+                <input type="number" name="pages" id="pages" placeholder="Pages (if known)" required="">
             </div>
             <div class="read">
                 <label for="read">Have you read it</label>
-                <input type="checkbox" name="read" id="read" required>
+                <input type="checkbox" name="read" id="read">
             </div>
-            <button type="submit">Submit</button>
+            <button class="submit-form" type="submit">Submit</button>
         </form>
     </div>
     <div class="overlay">
 
     </div>
     <div class="card-section">
-        
+        <div class="card">
+            <p class="book-title"> </p>
+            <p class="book-author"> </p>
+            <p class="book-pages"> </p>
+            <p class="book-read"></p>
+        </div>
     </div>
 </body>
 <script src="./app.js"></script>
