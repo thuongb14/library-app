@@ -1,31 +1,22 @@
 const addBookForm = document.querySelector('.form-control')
 const overlay = document.querySelector('.overlay');
 const form = document.querySelector('.book');
+const cardSection = document.querySelector('.card-section');
 
-//get value of form
 
-
-console.log(title)
-
-let showTitle = document.querySelector('.book-title')
-let showAuthor = document.querySelector('.book-author')
-let showPages = document.querySelector('.book-pages')
-let showRead = document.querySelector('.book-read')
-
-//get data from form and push to card
+//get data from form and push the value into array.
 form.addEventListener('submit', function(e) {
     e.preventDefault();
-    let title = form.elements['title'].value;
-    let author = form.elements['author'].value;
-    let pages = form.elements['pages'].value;
-    let read = form.elements['read'].value
-    showTitle.textContent = `Title: ${title}`;
-    showAuthor.textContent = `Author: ${author}`;
-    showPages.textContent = `Pages: ${pages}`;
-    showRead.textContent = `Have read: ${read}`;
-
+    addBookToLibrary(
+    form.elements['title'].value,  
+    form.elements['author'].value, 
+    form.elements['pages'].value,
+    form.elements['read'].checked)
     removePopUp()
+    displayBook()
+    form.reset()
 })
+
 
 function addBookPopUp() {
     overlay.classList.add('open-overlay');
@@ -39,23 +30,11 @@ function removePopUp() {
 
 function outerClick() {
     document.addEventListener('click', function(e) {
-        console.log(e.target)
         if (e.target.classList.contains('overlay')) {
             removePopUp()
         }
     }
 )};
-
-
-const submitButton = document.querySelector('.submit-form')
-// submitButton.addEventListener('click', function(e) {
-//     addBookForm.classList.remove('open-form')
-//     overlay.classList.remove('open-overlay')
-// });
-
-                
-    
-const myLibrary = [];
 
 function Book(title, author, pages, read) {
     this.title = title,
@@ -64,9 +43,58 @@ function Book(title, author, pages, read) {
     this.read = read
 }
 
-function addBookToLibrary() {
+function addBookToLibrary(title, author, pages, read) {
     let book = new Book(title, author, pages, read);
     myLibrary.push(book);
 }
 
+const myLibrary = [];
+
+
+//Exit Popup by clicking outer space
 outerClick()
+
+document.addEventListener('keydown', (event) => {
+    let name = event.key;
+    if (name === 'Escape') {
+      removePopUp();
+    }
+})
+
+
+//this will display the newest added book 
+function displayBook() {
+    let card = document.createElement('div')
+    card.classList.add('card');
+    cardSection.appendChild(card);
+    const p1 = card.appendChild(document.createElement('p'));
+    const p2 = card.appendChild(document.createElement('p'));
+    const p3 = card.appendChild(document.createElement('p'));
+    const readButton = document.createElement('button')
+    readButton.classList.add('read-button')
+    const removeButton = document.createElement('button')
+    removeButton.classList.add('remove-button')
+    card.appendChild(readButton);
+    card.appendChild(removeButton);
+    removeButton.textContent = 'Remove'
+    p1.textContent = `Title: ${myLibrary[myLibrary.length-1].title}`;
+    p2.textContent = `Author: ${myLibrary[myLibrary.length-1].author}`;
+    p3.textContent = `Pages: ${myLibrary[myLibrary.length-1].pages}`;
+    if (myLibrary[myLibrary.length-1].read === false) {
+        card.style = 'border-color: red';
+    }
+    if (myLibrary[myLibrary.length-1].read === false) {
+        readButton.textContent = 'Unread'
+        readButton.style = 'background-color: red';
+    } else {
+        readButton.textContent = 'Read';
+    }
+}
+
+
+
+
+
+document.addEventListener('click', function(e) {
+    console.log(e.target)
+})

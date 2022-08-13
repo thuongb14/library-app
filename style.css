@@ -91,9 +91,9 @@ input#search {
 .card-section {
     display: grid;
     grid-area: card-section;
-    grid-template-columns: repeat(4, 1fr);  
+    grid-template-columns: repeat(auto-fit, 250px);
     grid-gap: 30px;
-    justify-content: center;
+    justify-content: start;
     padding: var(--padding);
 }
 
@@ -120,6 +120,11 @@ button {
 button:hover {
     cursor: pointer;
     background-color: var(--color-2);
+}
+
+button:active {
+    box-shadow: none;
+    transform: translateY(2px)
 }
 
 .avatar:hover {
@@ -200,8 +205,21 @@ input#pages {
     background-color: white;
     border-radius: 10px;
     border-left: 8px solid var(--button-color);
-    padding: 20px;
+    padding: 20px 50px 30px 50px;;
     display: grid;
     grid-template-rows: auto;
     box-shadow: 5px 4px 5px rgba(187, 187, 187, 0.2);
-  }
+    justify-content: center;
+}
+
+
+.card > button {
+    background-color: var(--button-color);
+    border: none;
+    border-radius: 40px;
+    width: 9rem;
+    height: 3rem;
+    box-shadow: 4px 5px 2px rgba(187, 187, 187, 0.2);
+    font-size: 15px;
+    margin-top: 10px;
+}
