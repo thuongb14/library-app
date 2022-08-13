@@ -11,10 +11,10 @@ form.addEventListener('submit', function(e) {
     form.elements['title'].value,  
     form.elements['author'].value, 
     form.elements['pages'].value,
-    form.elements['read'].checked)
+    form.elements['read'].checked) // checked is true, unchecked is false
     removePopUp()
     displayBook()
-    form.reset()
+    // form.reset()
 })
 
 
@@ -62,8 +62,13 @@ document.addEventListener('keydown', (event) => {
 })
 
 
+
+
+
 //this will display the newest added book 
 function displayBook() {
+
+    //create card and append elements into it.
     let card = document.createElement('div')
     card.classList.add('card');
     cardSection.appendChild(card);
@@ -77,6 +82,8 @@ function displayBook() {
     card.appendChild(readButton);
     card.appendChild(removeButton);
     removeButton.textContent = 'Remove'
+
+    // display form data on card
     p1.textContent = `Title: ${myLibrary[myLibrary.length-1].title}`;
     p2.textContent = `Author: ${myLibrary[myLibrary.length-1].author}`;
     p3.textContent = `Pages: ${myLibrary[myLibrary.length-1].pages}`;
@@ -89,12 +96,21 @@ function displayBook() {
     } else {
         readButton.textContent = 'Read';
     }
+
+    // toggle read button
+    readButton.addEventListener('click', function() {
+        if (readButton.textContent === 'Unread') {
+            readButton.textContent = 'Read';
+            readButton.style = 'background-color: var(--button-color)';
+            card.style = 'border-color: var(--button-color)';
+        } else if (readButton.textContent === 'Read') {
+            readButton.textContent = 'Unread';
+            readButton.style = 'background-color: red';
+            card.style = 'border-color: red';
+        }
+    })
+
+    //remove button
 }
 
 
-
-
-
-document.addEventListener('click', function(e) {
-    console.log(e.target)
-})
