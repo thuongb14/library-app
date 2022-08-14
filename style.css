@@ -206,10 +206,10 @@ input#pages {
     border-radius: 10px;
     border-left: 8px solid var(--button-color);
     padding: 20px 50px 30px 50px;;
-    display: grid;
     grid-template-rows: auto;
     box-shadow: 5px 4px 5px rgba(187, 187, 187, 0.2);
     justify-content: center;
+    gap: 10px;
 }
 
 
@@ -222,4 +222,15 @@ input#pages {
     box-shadow: 4px 5px 2px rgba(187, 187, 187, 0.2);
     font-size: 15px;
     margin-top: 10px;
+}
+
+.card > p:first-child {
+    font-size: 20px;
+}
+
+.search-input > button:first-child {
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    box-shadow: none;
 }
