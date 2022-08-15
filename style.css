@@ -26,7 +26,6 @@ body {
     
 }
 
-
 .avatar {
     height: 40px;
     width: 40px;
@@ -207,11 +206,12 @@ input#pages {
     border-left: 8px solid var(--button-color);
     padding: 20px 50px 30px 50px;;
     grid-template-rows: auto;
+    overflow-block: ;
     box-shadow: 5px 4px 5px rgba(187, 187, 187, 0.2);
     justify-content: center;
     gap: 10px;
+    overflow-wrap: break-word;
 }
-
 
 .card > button {
     background-color: var(--button-color);
