@@ -51,7 +51,7 @@ function addNewBook() {
 
     let book = new Book(title, author, pages, read);
     myLibrary.push(book);
-    displayBook(book.title, book.author, book.pages)
+    displayBook(book.title, book.author, book.pages, book.read)
 }
 
 //get data from form and push the value into array.
