@@ -211,6 +211,8 @@ input#pages {
     justify-content: center;
     gap: 10px;
     overflow-wrap: break-word;
+    display: grid;
+    grid-template-rows: 1fr;
 }
 
 .card > button {
