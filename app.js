@@ -5,11 +5,6 @@ const cardSection = document.querySelector('.card-section');
 const searchForm = document.querySelector('.search-input')
 const searchInput = document.getElementById('search');
 
-function removeForm() {
-    overlay.classList.remove('open-overlay');
-    addBookForm.classList.remove('open-form');
-};
-
 class Book {
     constructor(title, author, pages, read) {
         this.title = title,
@@ -17,7 +12,6 @@ class Book {
         this.pages = pages,
         this.read = read
     };
-
 };
 
 let myLibrary = [];
@@ -31,27 +25,29 @@ class Form {
     outerClick() {
         document.addEventListener('click', function(e){
             if(e.target.classList.contains('overlay')) {
-                removeForm()
+                ui.removeForm()
             }
         });
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                removeForm()
+                ui.removeForm()
             }
         });
     };
-
-    addNewBook(book) {
-    book.title = document.querySelector('#title').value;
-    book.author = document.querySelector('#author').value;
-    book.pages = document.querySelector('#pages').value;
-    book.read = document.querySelector('#read').checked;
-    myLibrary.push(book)
-    };
-
 };
 
 class UI {
+    addNewBook() {
+        let title = document.querySelector('#title').value;
+        let author = document.querySelector('#author').value;
+        let pages = document.querySelector('#pages').value;
+        let read = document.querySelector('#read').checked;
+    
+        let book = new Book(title, author, pages, read);
+        myLibrary.push(book);
+        ui.makeCard(book);
+    };
+
     makeCard(book) {
         const card = document.createElement('div');
         card.classList.add('card');
@@ -76,21 +72,6 @@ class UI {
         } else if (book.read === true) {
             readButton.textContent = 'Read';
         };
-
-        searchInput.addEventListener('keyup', function() {
-            let filter = searchInput.value.toLowerCase();
-            if (card.firstElementChild.textContent.includes(filter)) {
-                
-            }
-        })
-
-    };
-
-    removeCard(e) {
-        if(e.target.textContent === 'Remove' && confirm('Are you sure to remove this book?')) {
-            e.target.parentElement.remove();
-
-        }
     };
 
     toggleReadButton(e, book) {
@@ -107,8 +88,16 @@ class UI {
         };
     };
 
+    removeForm() {
+        overlay.classList.remove('open-overlay');
+        addBookForm.classList.remove('open-form');
+    };
 
-    //run for myLibrary.length loop, check if i.title contains filter => card.firstChild.contains.title.style = display block/;
+    removeCard(e) {
+        if(e.target.textContent === 'Remove' && confirm('Are you sure to remove this book?')) {
+            e.target.parentElement.remove();
+        }
+    };
 
 };
 
@@ -123,18 +112,16 @@ document.querySelector('.button').addEventListener('click', function() {
 })
 
 window.addEventListener('click', function(e) {
+    
     bookForm.outerClick();
-    ui.removeCard(e)
     ui.toggleReadButton(e, book)
+    ui.removeCard(e)
 });
 
 form.addEventListener('submit', function(e) {
     e.preventDefault()
-    bookForm.addNewBook(book);
-    removeForm();
+    ui.addNewBook();
+    ui.removeForm();
     form.reset()
-    ui.makeCard(book);
 });
-
-
 
