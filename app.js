@@ -1,127 +1,128 @@
-const addBookForm = document.querySelector('.form-control')
 const overlay = document.querySelector('.overlay');
-const form = document.querySelector('.book');
+const addBookForm = document.querySelector('.form-control');
 const cardSection = document.querySelector('.card-section');
-const searchForm = document.querySelector('.search-input')
-const searchInput = document.getElementById('search');
+const searchInput = document.querySelector('#search');
+const bookForm = document.querySelector('.book')
 
 class Book {
-    constructor(title, author, pages, read) {
-        this.title = title,
-        this.author = author,
-        this.pages = pages,
-        this.read = read
-    };
+  constructor(title, author, pages, read) {
+    this.title = title,
+    this.author = author,
+    this.pages = pages,
+    this.read = read
+  }
 };
 
-let myLibrary = [];
+myLibrary = [];
 
 class Form {
-    addBookPopUp(){
-        overlay.classList.add('open-overlay');
-        addBookForm.classList.add('open-form')
-    };
-
-    outerClick() {
-        document.addEventListener('click', function(e){
-            if(e.target.classList.contains('overlay')) {
-                ui.removeForm()
-            }
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                ui.removeForm()
-            }
-        });
-    };
-};
+  addBookPopUp() {
+    overlay.classList.add('open-overlay');
+    addBookForm.classList.add('open-form');
+  };
+}
 
 class UI {
-    addNewBook() {
-        let title = document.querySelector('#title').value;
-        let author = document.querySelector('#author').value;
-        let pages = document.querySelector('#pages').value;
-        let read = document.querySelector('#read').checked;
-    
-        let book = new Book(title, author, pages, read);
-        myLibrary.push(book);
-        ui.makeCard(book);
-    };
+  removePopUp() {
+    addBookForm.classList.remove('open-form')
+    overlay.classList.remove('open-overlay')
+  };
+  
+  addBookCard(book) {
+    let card = document.createElement('div')
+    card.classList.add('card');
+    cardSection.appendChild(card);
+    const p1 = card.appendChild(document.createElement('p'));
+    const p2 = card.appendChild(document.createElement('p'));
+    const p3 = card.appendChild(document.createElement('p'));
+    const readButton = document.createElement('button')
+    const removeButton = document.createElement('button')
+    readButton.classList.add('read-button')
+    removeButton.classList.add('remove-button')
+    card.appendChild(readButton);
+    card.appendChild(removeButton);
+    removeButton.textContent = 'Remove'
 
-    makeCard(book) {
-        const card = document.createElement('div');
-        card.classList.add('card');
-        cardSection.appendChild(card);  
-        const p1 = card.appendChild(document.createElement('p'));   
-        const p2 = card.appendChild(document.createElement('p'));  
-        const p3 = card.appendChild(document.createElement('p')); 
-        const readButton = document.createElement('button');
-        const removeButton = document.createElement('button');
-        readButton.classList.add('read-button');
-        removeButton.classList.add('remove-button');
-        card.appendChild(readButton);
-        card.appendChild(removeButton);
-        removeButton.textContent = 'Remove';
-        p1.textContent = book.title;
-        p2.textContent = book.author;
-        p3.textContent = book.pages;
-        if(book.read === false) {
-            readButton.textContent = 'Unread'
-            readButton.style = 'background-color: red';
-            card.style = 'border-color: red';
-        } else if (book.read === true) {
-            readButton.textContent = 'Read';
-        };
-    };
+    // display form data on card
+    p1.textContent = book.title;
+    p2.textContent = `Author: ${book.author}`;
+    p3.textContent = `Pages: ${book.pages}`;
+    if (book.read === false) {
+        readButton.textContent = 'Unread'
+        readButton.style = 'background-color: red';
+        card.classList.add('button-unread')
+    } else {
+        readButton.textContent = 'Read';
+        card.classList.add('button-read')
+    }
 
-    toggleReadButton(e, book) {
-        if (e.target.textContent === 'Unread') { 
-            book.read = true;
-            e.target.textContent = 'Read';
-            e.target.style = 'background-color: var(--button-color)';
-            e.target.parentElement.style = 'border-color: var(--button-color)';
-        } else if (e.target.textContent === 'Read') {
-            book.read = false;
-            e.target.textContent = 'Unread';
-            e.target.style = 'background-color: red';
-            e.target.parentElement.style = 'border-color: red';
-        };
-    };
 
-    removeForm() {
-        overlay.classList.remove('open-overlay');
-        addBookForm.classList.remove('open-form');
-    };
+    //toggle read button style & change read status in array object
+    readButton.onclick = function() {
+      if (book.read === false) { 
+          book.read = true;
+          readButton.textContent = 'Read'
+          readButton.style = 'background-color: var(--button-color)';
+          card.setAttribute('class', 'card button-read')
+      } else if (book.read === true) {
+          book.read = false
+          card.setAttribute('class', 'card button-unread')
+          readButton.textContent = 'Unread'
+          readButton.style = 'background-color: red'
+      }     
+    }
+  
+    myLibrary.forEach((book) => {
+        //remove book card and book data from myLibrary array object
+      removeButton.onclick = function (e, index) {
+        if (confirm('Are you sure to remove this book?')) {
+          e.target.parentElement.remove()
+          myLibrary.splice(index, 1)
+          }
+      }
+        searchInput.addEventListener('keyup', function() {
+            let filter = searchInput.value.toLowerCase();
+            if(book.title.toLowerCase().startsWith(filter)) {
+                card.style = '';
+            } else {
+                card.style = 'display: none';
+            }
+        })
+    })
+  };
+}
 
-    removeCard(e) {
-        if(e.target.textContent === 'Remove' && confirm('Are you sure to remove this book?')) {
-            e.target.parentElement.remove();
-        }
-    };
-
-};
-
-const book = new Book();
-
-const bookForm = new Form();
-
-const ui = new UI();
-
-document.querySelector('.button').addEventListener('click', function() {
-    bookForm.addBookPopUp();
+//event when click the button to open form
+document.querySelector('.add-book').addEventListener('click', function(e) {
+  e.preventDefault();
+  const form = new Form()
+  form.addBookPopUp();
 })
 
-window.addEventListener('click', function(e) {
-    
-    bookForm.outerClick();
-    ui.toggleReadButton(e, book)
-    ui.removeCard(e)
-});
+//event when submit the form - get book and append book to card
+document.querySelector('.form-control').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const book = new Book(title, author, pages, read);
+  
+//get the book value
+  book.title = document.querySelector('#title').value;
+  book.author = document.querySelector('#author').value;
+  book.pages = document.querySelector('#pages').value;
+  book.read = document.querySelector('#read').checked;
+  
+//push the book to array
+  myLibrary.push(book);
+  
+  const ui = new UI();
+  ui.removePopUp()
+  ui.addBookCard(book)
+  bookForm.reset()
+})
 
-form.addEventListener('submit', function(e) {
-    e.preventDefault()
-    ui.addNewBook();
-    ui.removeForm();
-    form.reset()
-});
-
+//event when click on document
+window.addEventListener('click', function(e){
+  const ui = new UI();
+  if (e.target.classList.contains('overlay')) {
+      ui.removePopUp();
+  }
+})

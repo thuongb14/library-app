@@ -99,7 +99,7 @@ input#search {
 
 .instruction-bar {
     font-size: 15px;
-    width: 60vw;
+    min-width: 60vw;
     
 }
 
@@ -204,7 +204,6 @@ input#pages {
 .card {
     background-color: white;
     border-radius: 10px;
-    border-left: 8px solid var(--button-color);
     padding: 20px 50px 30px 50px;;
     grid-template-rows: auto;
     box-shadow: 5px 4px 5px rgba(187, 187, 187, 0.2);
@@ -235,4 +234,12 @@ input#pages {
     height: auto;
     background-color: transparent;
     box-shadow: none;
+}
+
+.button-read {
+    border-left: 8px solid var(--button-color);
+}
+
+.button-unread {
+    border-left: 8px solid red;
 }
