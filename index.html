@@ -39,13 +39,15 @@
         </div>
     
         <div class="form-control">
-            <form class="book" action="get">
+            <form class="book">
                 <h1>Add new book</h1>
                 <div class="title">
-                    <input type="text" name="title" id="title" placeholder="Title" required="">
+                    <input type="text" name="title" id="title" placeholder="Title" required>
+                    <div class="error"></div>
                 </div>
                 <div class="author">
-                    <input type="text" name="author" id="author" placeholder="Author" required="">
+                    <input type="text" name="author" id="author" placeholder="Author" required>
+                    <div class="error"></div>
                 </div>
                 <div class="pages">
                     <input type="number" name="pages" id="pages" placeholder="Pages (if known)">

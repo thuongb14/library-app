@@ -23,6 +23,17 @@ class Form {
 }
 
 class UI {
+  showError(field) {
+    if(field.validity.valid) {
+      field.nextElementSibling.textContent = ''
+      field.nextElementSibling.className = 'error'
+    }
+    else if(field.validity.valueMissing) {
+      field.nextElementSibling.textContent = '*This is the required field'
+      field.nextElementSibling.classList.add('active')
+    }
+  }
+
   removePopUp() {
     addBookForm.classList.remove('open-form')
     overlay.classList.remove('open-overlay')
@@ -92,6 +103,12 @@ class UI {
   };
 }
 
+const bookTitle = document.querySelector('#title')
+const bookAuthor = document.querySelector('#author')
+const bookPages = document.querySelector('#pages')
+const bookRead = document.querySelector('#read')
+const error = document.querySelectorAll('.error')
+
 //event when click the button to open form
 document.querySelector('.add-book').addEventListener('click', function(e) {
   e.preventDefault();
@@ -100,15 +117,15 @@ document.querySelector('.add-book').addEventListener('click', function(e) {
 })
 
 //event when submit the form - get book and append book to card
-document.querySelector('.form-control').addEventListener('submit', function(e) {
+bookForm.addEventListener('submit', function(e) {
   e.preventDefault();
   const book = new Book(title, author, pages, read);
   
 //get the book value
-  book.title = document.querySelector('#title').value;
-  book.author = document.querySelector('#author').value;
-  book.pages = document.querySelector('#pages').value;
-  book.read = document.querySelector('#read').checked;
+  book.title = bookTitle.value;
+  book.author = bookAuthor.value;
+  book.pages = bookPages.value;
+  book.read = bookRead.checked;
   
 //push the book to array
   myLibrary.push(book);
@@ -125,4 +142,14 @@ window.addEventListener('click', function(e){
   if (e.target.classList.contains('overlay')) {
       ui.removePopUp();
   }
+})
+
+bookTitle.addEventListener('input', (event) => {
+  const ui = new UI
+    ui.showError(bookTitle)
+})
+
+bookAuthor.addEventListener('input', (event) => {
+  const ui = new UI
+  ui.showError(bookAuthor)
 })
